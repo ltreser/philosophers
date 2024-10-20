@@ -17,14 +17,14 @@
 
 int	main(int ac, char **av)
 {
-	(void)av;
-	if (5 == ac || 6 == ac)
+	t_table *table;
+	if (reservation_correct(ac, av)) //error handling
 	{
-		//error checking
-		//saving input data
-		//initialise data
-		//simulation exec
-		//clear table (no leaks)
+		make_reservation(table, av); //parse
+		lay_table(table); //init
+		serve_dinner(table); //run
+		clear_table(table); //free
+	}
 	else
 		return (printf("%s", WRONG_INPUT), exit(EXIT_FAILURE), 1);
 }
