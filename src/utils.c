@@ -15,9 +15,17 @@
 long	ft_atol(const char *str)
 {
 	long	n;
+	int 	i;
 	
 	n = 0;
-	str = 
+	i = 0;
+	while (str[i])
+	{
+		n = (str[i] + '0') * 10;
+		i++;
+	}
+	return (n);
+}
 
 int	ft_strlen(char *str)
 {
@@ -29,16 +37,32 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
+
+//takes a string and checks if its only numbers for n length, length -1 = check everything
 int	isnum_n(char *str, int n)
 {
 	int i;
 
 	i = 0;
-	if (n == '-1')
+	if (n == -1)
 		n = ft_strlen(str);
 	while (n--)
 		if (str[i] < '0' || str[i] > '9')
 			return (0);
 	return (1);
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

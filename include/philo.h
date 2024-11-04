@@ -59,12 +59,18 @@ struct s_fork
 struct s_philo
 {
 	int		id;
-	p_thread_t	thread_id;
+	pthread_t	thread_id;
 	long		meals;
 	long		t_last_meal;
 	t_fork		*left;
 	t_fork		*right;
 };
 
+
+int     reservation_correct(int ac, char **av);
+void    make_reservation(t_table *table, int ac, char **av);
+long    ft_atol(const char *str);
+int     ft_strlen(char *str);
+int     isnum_n(char *str, int n);
 
 #endif
