@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 15:42:49 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/10 22:03:55 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/10 23:36:38 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	main(int ac, char **av)
 		printf("parsing done!\n");
 		lay_table(table); //init
 		printf("init done!\n");
-		//serve_dinner(table); //run
+		serve_dinner(table); //run
 		//clear_table(table); //free
 	}
 	else
