@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 20:10:29 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/10 23:48:19 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/11 00:53:09 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	init_philos(t_table *table)
 		table->philos[i]->t_last_meal = table->t_start;
 		table->philos[i]->id = i + 1;
 		table->philos[i]->table = table;
+		table->philos[i]->max_meals = table->max_meals;
+		table->philos[i]->members = table->members;
 		table->philos[i]->left = table->forks[i];
 		table->philos[i]->right = table->forks[(i + 1) % table->members];
 	//	if (pthread_create(&table->philos[i]->thread_id, NULL, serve_dinner,

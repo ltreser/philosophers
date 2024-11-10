@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 19:23:20 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/11 00:36:52 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/11 00:58:39 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,26 @@ void	be_served(t_philo *philo)
 
 void	*monitor(void *arg)
 {
+	int i;
+
+	i = 0;
 	t_table *table = (t_table *)arg;
-	//TODO: infinity loop that continuously checks if the philos have died
+	while (1)
+	{
+		while (i < table->members)
+		{
+			pthread_mutex_lock(&table->meals);
+			if ((current_ms() - table->philos[i]->t_last_meal) > table_>tt_die) //TODO time last meal always changed with meal locked
+			{
+				pthread_mutex_lock(&table->death);
+				table->death = 1;
+				pthread_mutex_unlock(&table->death);
+				pthread_mutex_unlock(&table->meals);
+				return ;
+			}
+			pthread_mutex_unlock(&table->meals);
+			i++;
+		}
 }
 
 void	*routine(void *arg)
@@ -34,7 +52,7 @@ void	*routine(void *arg)
 	{
 		pthread_mutex_unlock(&philo->table->meals);
 		pthread_mutex_unlock(&philo->table->death);
-		plates = philo->table->members / 2;
+		plates = philo->members / 2;
 		round = meals / plates;
 		served = meals % plates;
 		if (!served && round == philo->id) //TODO correct
