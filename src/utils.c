@@ -52,6 +52,14 @@ int	isnum_n(char *str, int n)
 	return (1);
 }
 
+long current_ms(void)
+{
+	struct timeval current_time;
+	gettimeofday(&current_time, NULL);
+	long current_ms;
+	current_ms = current_time.tv_sec * 1000 + current_time.tv_usec / 1000;
+	return (current_ms);
+}
 
 
 

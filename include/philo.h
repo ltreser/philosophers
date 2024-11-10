@@ -31,6 +31,7 @@
 #define WHITE "\033[0;37m"        // White text
 
 #define WRONG_INPUT RED "Wrong input!\n" GREEN "Correct input is: ./philo 5 800 200 200 [5]\n" RESET
+#define MALLOC_FAIL RED "Malloc failed!\n" RESET
 
 typedef struct s_table t_table;
 typedef struct s_philo t_philo;
@@ -45,8 +46,8 @@ struct	s_table
 	long 	tt_sleep;
 	long	t_start;
 	int	max_meals; //-1 if no input
-	t_fork	*forks;
-	t_philo	*philos;
+	t_fork	**forks;
+	t_philo	**philos;
 
 };
 
@@ -72,5 +73,6 @@ void    make_reservation(t_table *table, int ac, char **av);
 long    ft_atol(const char *str);
 int     ft_strlen(char *str);
 int     isnum_n(char *str, int n);
+long	current_ms(void);
 
 #endif

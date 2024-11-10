@@ -17,7 +17,9 @@ int	main(int ac, char **av)
 {
 	t_table *table;
 
-	table = malloc(sizeof(table));
+	table = malloc(sizeof(t_table));
+	if (!table)
+		return (printf("%s", MALLOC_FAIL), exit(EXIT_FAILURE), 1);
 	if (reservation_correct(ac, av)) //error handling
 	{
 		make_reservation(table, ac, av); //parse
