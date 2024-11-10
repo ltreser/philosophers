@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 16:42:34 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/10 23:47:53 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/11 00:38:00 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ struct	s_table
 	t_mutex	m_death;
 	int death;
 	int meals;
+	pthread_t monitor_id;
 };
 
 struct s_philo
@@ -65,6 +66,7 @@ struct s_philo
 	t_mutex		*left;
 	t_mutex		*right;
 	t_table		*table;
+	int			max_meals;
 };
 
 

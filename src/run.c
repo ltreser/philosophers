@@ -6,11 +6,15 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 19:23:20 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/11 00:11:18 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/11 00:36:52 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
+
+void	be_served(t_philo *philo)
+{
+	
 
 void	*monitor(void *arg)
 {
@@ -24,14 +28,24 @@ void	*routine(void *arg)
 	int	plates;
 	int round;
 	int	served;
-
-	plates = philo->table->members / 2;
-	round = meals / plates;
-	served = meals % plates;
-	if (!served && round == philo->thread_id)
-		//eat blablabla
-	else if (served && ((round + served * 2) == philo->thread_id))
-		//eat blablabla
+	pthread_mutex_lock(&philo->table->death);
+	pthread_mutex_lock(&philo->table->meals);
+	while (!philo->table->death && !(philo->meals == philo->max_meals))
+	{
+		pthread_mutex_unlock(&philo->table->meals);
+		pthread_mutex_unlock(&philo->table->death);
+		plates = philo->table->members / 2;
+		round = meals / plates;
+		served = meals % plates;
+		if (!served && round == philo->id) //TODO correct
+			be_served(philo);
+		else if (served && ((round + served * 2) == philo->id)) //TODO it could be that a higher id reaches this first so it should still work -> this is a race condition bc the philos access this randomly and not in order
+			be_served(philo);
+	pthread_mutex_lock(&philo->table->death);
+	pthread_mutex_lock(&philo->table->meals);
+	}
+	pthread_mutex_unlock(&philo->table->meals);
+	pthread_mutex_unlock(&philo->table->death);
 }
 
 void	serve_dinner(t_table *table)
