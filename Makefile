@@ -6,7 +6,7 @@
 #    By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 16:36:18 by ltreser           #+#    #+#              #
-#    Updated: 2024/11/04 18:12:46 by ltreser          ###   ########.fr        #
+#    Updated: 2024/11/10 19:24:54 by ltreser          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,8 @@ SRC_DIR			:= src/
 SRC_FILES		+= main.c 
 SRC_FILES		+= parse.c
 SRC_FILES		+= utils.c
+SRC_FILES		+= init.c
+SRC_FILES		+= run.c
 
 # Object files directory
 OBJ_DIR			:= obj/

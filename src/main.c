@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 15:42:49 by ltreser           #+#    #+#             */
-/*   Updated: 2024/10/10 17:31:30 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/10 22:03:55 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@ int	main(int ac, char **av)
 	{
 		make_reservation(table, ac, av); //parse
 		printf("parsing done!\n");
-		//lay_table(table); //init
+		lay_table(table); //init
+		printf("init done!\n");
 		//serve_dinner(table); //run
 		//clear_table(table); //free
 	}
 	else
 		return (printf("%s", WRONG_INPUT), exit(EXIT_FAILURE), 1);
 }
-
 
