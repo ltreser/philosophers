@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 16:42:34 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/11 00:54:52 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/12 01:53:30 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,11 @@
 #define MALLOC_FAIL RED "Malloc failed!\n" RESET
 #define MUTEX_FAIL RED "Failed to init mutex!\n" RESET
 #define THREAD_FAIL RED "Failed to create thread!\n" RESET
+#define FORK "has taken a fork\n"
+#define EAT "is eating\n"
+#define SLEEP "is sleeping\n"
+#define THINK "is thinking\n"
+#define DEATH "died\n"
 
 typedef struct s_table t_table;
 typedef struct s_philo t_philo;
@@ -49,10 +54,10 @@ struct	s_table
 	int	max_meals; //-1 if no input
 	t_mutex	**forks;
 	t_philo	**philos;
-	t_mutex	write;
+	t_mutex	m_write;
 	t_mutex m_meals;
-	t_mutex	m_death;
-	int death;
+	t_mutex	m_end;
+	int end;
 	int meals;
 	pthread_t monitor_id;
 };
@@ -67,6 +72,11 @@ struct s_philo
 	t_mutex		*right;
 	t_table		*table;
 	int			max_meals;
+	long		tt_eat;
+	long		tt_sleep;
+	long		tt_die;
+	long		t_start;
+	long		members;
 };
 
 
@@ -79,6 +89,14 @@ long	current_ms(void);
 void    lay_table(t_table *table);
 void    init_forks(t_table *table);
 void    init_philos(t_table *table);
-void    *serve_dinner(void  *arg);
+void    end_here(t_table *table);
+int     check_end(t_table *table);
+long    check_meals(t_table *table);
+void    be_served(t_philo *philo);
+void    *monitor(void *arg);
+void	*routine(void *arg);
+void	serve_dinner(t_table *table);
+long	timestamp(t_philo *philo);
+int     check_t_last_meal(t_philo *philo);
 
 #endif

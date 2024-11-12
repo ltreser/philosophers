@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 16:42:28 by ltreser           #+#    #+#             */
-/*   Updated: 2024/10/20 17:24:46 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/12 01:24:37 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ft_strlen(char *str)
 //takes a string and checks if its only numbers for n length, length -1 = check everything
 int	isnum_n(char *str, int n)
 {
-	int i;
+	int i; 	
 
 	i = 0;
 	if (n == -1)
@@ -60,6 +60,15 @@ long current_ms(void)
 	current_ms = current_time.tv_sec * 1000 + current_time.tv_usec / 1000;
 	return (current_ms);
 }
+
+long timestamp(t_philo *philo)
+{
+	long	time_passed;
+
+	time_passed = current_ms() - philo->t_start;
+	return (time_passed);
+}
+
 
 
 

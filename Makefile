@@ -6,7 +6,7 @@
 #    By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 16:36:18 by ltreser           #+#    #+#              #
-#    Updated: 2024/11/10 19:24:54 by ltreser          ###   ########.fr        #
+#    Updated: 2024/11/12 01:18:38 by ltreser          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ SRC_FILES		+= parse.c
 SRC_FILES		+= utils.c
 SRC_FILES		+= init.c
 SRC_FILES		+= run.c
+SRC_FILES		+= mutex.c
 
 # Object files directory
 OBJ_DIR			:= obj/
