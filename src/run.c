@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 19:23:20 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/13 01:52:31 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/13 22:59:53 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,20 @@
 
 void	be_served(t_philo *philo)
 {
-	//printf("SOMEONE IS SERVED (philo nr %d)!\n", philo->id);
+	//printf("\n\n\nSOMEONE IS SERVED (philo nr %d)!\n", philo->id);
 	// XXX when writing always make sure no one died yet
-	pthread_mutex_lock(philo->left);
-	pthread_mutex_lock(philo->right);
-	pthread_mutex_lock(&philo->table->m_meals);
-	philo->t_last_meal = current_ms();
-	printf("time last meal for nr %d is now: %ld\n", philo->id, philo->t_last_meal);
-	philo->table->meals++;
-	pthread_mutex_unlock(&philo->table->m_meals);
+	if (philo->id == 1)
+	{
+		pthread_mutex_lock(philo->right);
+		pthread_mutex_lock(philo->left);
+	}
+	else
+	{
+		pthread_mutex_lock(philo->left);
+		pthread_mutex_lock(philo->right);
+	}
+	//printf("1 hi im %d and im being served at %ld\n", philo->id, timestamp(philo));
+	//printf("time last meal for nr %d is now: %ld\n", philo->id, philo->t_last_meal);
 	pthread_mutex_lock(&philo->table->m_write);
 	if (!check_end(philo->table))
 	{
@@ -31,12 +36,22 @@ void	be_served(t_philo *philo)
 		printf("%ld %d %s", timestamp(philo), philo->id, EAT);
 	}
 	pthread_mutex_unlock(&philo->table->m_write);
-	philo->meals++;
-	printf("timestamp before usleep: %ld\n", timestamp(philo));
+	pthread_mutex_lock(&philo->table->m_meals);
+	philo->t_last_meal = current_ms();
+	philo->table->meals++;
+	pthread_mutex_unlock(&philo->table->m_meals);
 	usleep(philo->tt_eat * 1000);
-	printf("timestamp after usleep: %ld\n", timestamp(philo));
-	pthread_mutex_unlock(philo->left);
-	pthread_mutex_unlock(philo->right);
+	philo->meals++;
+	if (philo->id == 1)
+	{
+		pthread_mutex_unlock(philo->left);
+		pthread_mutex_unlock(philo->right);
+	}
+	else
+	{
+		pthread_mutex_unlock(philo->right);
+		pthread_mutex_unlock(philo->left);
+	}
 	pthread_mutex_lock(&philo->table->m_write);
 	if (!check_end(philo->table))
 		printf("%ld %d %s", timestamp(philo), philo->id, SLEEP);
@@ -67,7 +82,8 @@ void	*monitor(void *arg)
 			// TODO time last meal always changed with meal locked
 			{
 				debug = current_ms() - check_t_last_meal(table->philos[i]);
-				printf("2 time since last meal: %d\n", debug);
+				printf("time no %d since last meal: %d\n", table->philos[i]->id, debug);
+				//printf("previous meal timestamp: %ld\n", table->philos[i]->t_last_meal);
 				//write(1, "2 goes here!\n", 13);
 				pthread_mutex_lock(&table->m_write);
 				if (!check_end(table))
@@ -78,6 +94,7 @@ void	*monitor(void *arg)
 				pthread_mutex_unlock(&table->m_end);
 				return (NULL);
 			}
+			usleep(500);
 			i++;
 		}
 	}
@@ -91,16 +108,29 @@ void *routine(void *arg)
 	int served;
 	while ((!check_end(philo->table)) && (!(philo->meals == philo->max_meals)))
 	{
-		//printf("hi im %d\n", philo->id);
+		//printf("\nHI im %d\n", philo->id);
 		plates = philo->members / 2;
 		//printf("check meals result: %ld\n", check_meals(philo->table));
 		round = (check_meals(philo->table) / plates) + 1;
 		served = check_meals(philo->table) % plates;
 		//printf("this is plates: %d\nthis is round: %d\nthis is plates served: %d\n", plates, round, served);
-		if (!served && (round == philo->id))
+		if (!served && (round % philo->members == philo->id))
+		{
+			//printf("I GET FOOD\n");
+			//printf("\n\n1 hi im %d and im being served at %ld\n", philo->id, timestamp(philo));
 			be_served(philo);
-		else if (served && ((round + served * 2) == philo->id))
+		}
+		else if (served && (((round + (served * 2)) % philo->members) == philo->id))
+		{
+			//printf("I GET FOOD\n");
+			//printf("\n\n2 hi im %d and im being served at %ld\n", philo->id, timestamp(philo));
 			be_served(philo);
+		}
+		else if (served && philo->id == philo->members && (!((round + (served * 2)) % philo->members)))
+			be_served(philo);
+		else if (!served && philo->id == philo->members && (!(round % philo->members)))
+			be_served(philo);
+		usleep(500);
 	}
 	return (NULL);
 }

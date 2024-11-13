@@ -6,7 +6,7 @@
 #    By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/11/04 16:36:18 by ltreser           #+#    #+#              #
-#    Updated: 2024/11/12 01:18:38 by ltreser          ###   ########.fr        #
+#    Updated: 2024/11/13 22:55:20 by ltreser          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@
 CC				:= cc
 
 # Compiler flags
-CFLAGS			:= -Wall -Werror -Wextra
+CFLAGS			:= -Wall -Werror -Wextra #-fsanitize=thread
 
 # Include directories
 INCLUDES		:= -Iinclude/

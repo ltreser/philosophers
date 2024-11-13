@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 20:10:29 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/12 01:48:23 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/13 21:20:26 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	init_philos(t_table *table)
 		table->philos[i]->id = i + 1;
 		table->philos[i]->table = table;
 		table->philos[i]->tt_sleep = table->tt_sleep;
+		table->philos[i]->tt_eat = table->tt_eat;
 		table->philos[i]->max_meals = table->max_meals;
 		table->philos[i]->t_start = table->t_start;
 		table->philos[i]->members = table->members;
