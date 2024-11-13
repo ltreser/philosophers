@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 23:06:49 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/12 01:52:11 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/12 23:16:15 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ long	check_meals(t_table *table)
 	return (m);
 }
 
-int		check_t_last_meal(t_philo *philo)
+long		check_t_last_meal(t_philo *philo)
 {
-	int t;
+	long t;
 
 	t = 0;
 	pthread_mutex_lock(&philo->table->m_meals);

@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 19:23:20 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/12 02:17:27 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/13 01:52:31 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,27 @@
 
 void	be_served(t_philo *philo)
 {
+	//printf("SOMEONE IS SERVED (philo nr %d)!\n", philo->id);
 	// XXX when writing always make sure no one died yet
 	pthread_mutex_lock(philo->left);
 	pthread_mutex_lock(philo->right);
-	pthread_mutex_lock(&philo->table->m_write);
-	if (!check_end(philo->table))
-		printf("%ld %d %s", timestamp(philo), philo->id, FORK);
-	if (!check_end(philo->table))
-		printf("%ld %d %s", timestamp(philo), philo->id, FORK);
-	if (!check_end(philo->table))
-		printf("%ld %d %s", timestamp(philo), philo->id, EAT);
-	pthread_mutex_unlock(&philo->table->m_write);
-	usleep(philo->tt_eat * 1000);
-	philo->meals++;
 	pthread_mutex_lock(&philo->table->m_meals);
 	philo->t_last_meal = current_ms();
+	printf("time last meal for nr %d is now: %ld\n", philo->id, philo->t_last_meal);
 	philo->table->meals++;
 	pthread_mutex_unlock(&philo->table->m_meals);
+	pthread_mutex_lock(&philo->table->m_write);
+	if (!check_end(philo->table))
+	{
+		printf("%ld %d %s", timestamp(philo), philo->id, FORK);
+		printf("%ld %d %s", timestamp(philo), philo->id, FORK);
+		printf("%ld %d %s", timestamp(philo), philo->id, EAT);
+	}
+	pthread_mutex_unlock(&philo->table->m_write);
+	philo->meals++;
+	printf("timestamp before usleep: %ld\n", timestamp(philo));
+	usleep(philo->tt_eat * 1000);
+	printf("timestamp after usleep: %ld\n", timestamp(philo));
 	pthread_mutex_unlock(philo->left);
 	pthread_mutex_unlock(philo->right);
 	pthread_mutex_lock(&philo->table->m_write);
@@ -47,22 +51,30 @@ void	be_served(t_philo *philo)
 void	*monitor(void *arg)
 {
 	int i;
+	int debug;
 
 	t_table *table = (t_table *)arg;
+	debug = 0;
 	while (1)
 	{
 		i = 0;
 		while (i < table->members)
 		{
+			//write(1, "1 goes here!\n", 13);
+			//debug = current_ms() - check_t_last_meal(table->philos[i]);
+			//printf("1 time since last meal: %d\ntime to die: %ld\n", debug, table->tt_die);
 			if ((current_ms() - check_t_last_meal(table->philos[i])) > table->tt_die)
 			// TODO time last meal always changed with meal locked
 			{
-				pthread_mutex_lock(&table->m_end);
+				debug = current_ms() - check_t_last_meal(table->philos[i]);
+				printf("2 time since last meal: %d\n", debug);
+				//write(1, "2 goes here!\n", 13);
 				pthread_mutex_lock(&table->m_write);
 				if (!check_end(table))
 					printf("%ld %d %s", timestamp(table->philos[i]), i + 1, DEATH);
-				table->end = 1;
 				pthread_mutex_unlock(&table->m_write);
+				pthread_mutex_lock(&table->m_end);
+				table->end = 1;
 				pthread_mutex_unlock(&table->m_end);
 				return (NULL);
 			}
@@ -77,12 +89,15 @@ void *routine(void *arg)
 	int plates;
 	int round;
 	int served;
-	while (!check_end(philo->table) && !(philo->meals == philo->max_meals))
+	while ((!check_end(philo->table)) && (!(philo->meals == philo->max_meals)))
 	{
+		//printf("hi im %d\n", philo->id);
 		plates = philo->members / 2;
-		round = check_meals(philo->table) / plates;
+		//printf("check meals result: %ld\n", check_meals(philo->table));
+		round = (check_meals(philo->table) / plates) + 1;
 		served = check_meals(philo->table) % plates;
-		if (!served && round == philo->id)
+		//printf("this is plates: %d\nthis is round: %d\nthis is plates served: %d\n", plates, round, served);
+		if (!served && (round == philo->id))
 			be_served(philo);
 		else if (served && ((round + served * 2) == philo->id))
 			be_served(philo);
@@ -95,8 +110,6 @@ void serve_dinner(t_table *table)
 	int i;
 	
 	i = 0;
-	printf("table members: %ld\n", table->members);
-	exit(0);
 	if (pthread_create(&table->monitor_id, NULL, monitor, table)) // return 0 indicates success
 		return (printf("%s", THREAD_FAIL), end_here(table));
 	while (i < table->members)		
@@ -109,6 +122,5 @@ void serve_dinner(t_table *table)
 	i = -1;
 	pthread_join(table->monitor_id, NULL);
 	while (++i < table->members)
-		pthread_join(table->philos[i]->thread_id, NULL);
-	
+		pthread_join(table->philos[i]->thread_id, NULL);	
 }

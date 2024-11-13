@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 16:42:28 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/12 01:24:37 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/12 20:36:25 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ long	ft_atol(const char *str)
 	i = 0;
 	while (str[i])
 	{
-		n = (str[i] + '0') * 10;
+		n = (str[i] - '0') + n * 10;
 		i++;
 	}
 	return (n);
