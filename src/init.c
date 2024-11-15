@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 20:10:29 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/13 21:20:26 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/14 01:08:12 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	init_forks(t_table *table)
 void	init_philos(t_table *table)
 {
 	int	i;
+	t_mutex *temp;
 
 	i = 0;
 	while (i < table->members)
@@ -49,6 +50,12 @@ void	init_philos(t_table *table)
 		table->philos[i]->members = table->members;
 		table->philos[i]->left = table->forks[i];
 		table->philos[i]->right = table->forks[(i + 1) % table->members];
+		if (!i)
+		{
+			temp = table->philos[i]->right;
+			table->philos[i]->right = table->philos[i]->left;
+			table->philos[i]->left = temp;
+		}
 		i++;
 	}	
 }

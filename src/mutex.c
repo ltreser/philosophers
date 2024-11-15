@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 23:06:49 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/12 23:16:15 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/15 21:49:27 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,23 @@ long		check_t_last_meal(t_philo *philo)
 	t = philo->t_last_meal;
 	pthread_mutex_unlock(&philo->table->m_meals);
 	return (t);
+}
+
+void	m_write(t_philo *philo, int action)
+{
+	if (!check_end(philo->table))
+	{
+		pthread_mutex_lock(&philo->table->m_write);
+		if (action == 0)
+			printf("%ld %d %s", timestamp(philo), philo->id, FORK);
+		if (action == 1)
+			printf("%ld %d %s", timestamp(philo), philo->id, EAT);
+		if (action == 2)
+			printf("%ld %d %s", timestamp(philo), philo->id, SLEEP);
+		if (action == 3)
+			printf("%ld %d %s", timestamp(philo), philo->id, THINK);
+		if (action == 4)
+			printf("%ld %d %s", timestamp(philo), philo->id, DEATH);
+		pthread_mutex_unlock(&philo->table->m_write);
+	}
 }

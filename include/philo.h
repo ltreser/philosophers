@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 16:42:34 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/12 23:16:35 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/15 21:45:39 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,10 @@ void	*routine(void *arg);
 void	serve_dinner(t_table *table);
 long	timestamp(t_philo *philo);
 long     check_t_last_meal(t_philo *philo);
+void    dinner41(t_philo *philo);
+void    free_philos(t_table *table);
+void    free_forks(t_table *forks);
+void    clear_table(t_table *table);
+void    m_write(t_philo *philo, int action);
 
 #endif
