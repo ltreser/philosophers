@@ -6,30 +6,27 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/10 15:42:49 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/14 01:31:35 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/16 01:27:59 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-
 int	main(int ac, char **av)
 {
-	t_table *table;
+	t_table	*table;
 
 	table = malloc(sizeof(t_table));
 	if (!table)
 		return (printf("%s", MALLOC_FAIL), end_here(table), 1);
-	if (reservation_correct(ac, av)) //error handling
+	if (reservation_correct(ac, av))
 	{
-		make_reservation(table, ac, av); //parse
-		printf("parsing done!\n");
-		lay_table(table); //init
-		printf("init done!\n");
-		serve_dinner(table); //run
-		clear_table(table); //free
+		make_reservation(table, ac, av);
+		lay_table(table);
+		serve_dinner(table);
+		clear_table(table);
 	}
 	else
-		return (printf("%s", WRONG_INPUT), exit(EXIT_FAILURE), 1);
+		return (free(table), table = NULL, printf("%s", WRONG_INPUT),
+			exit(EXIT_FAILURE), 1);
 }
-

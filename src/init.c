@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/10 20:10:29 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/14 01:08:12 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/16 01:51:08 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_forks(t_table *table)
 		table->forks[i] = malloc(sizeof(t_mutex));
 		if (!table->forks[i])
 			return (printf("%s", MALLOC_FAIL), end_here(table));
-		if (pthread_mutex_init(table->forks[i], NULL))// return 0 indicates success
+		if (pthread_mutex_init(table->forks[i], NULL))
 			return (printf("%s", MUTEX_FAIL), end_here(table));
 		i++;
 	}
@@ -30,11 +30,11 @@ void	init_forks(t_table *table)
 
 void	init_philos(t_table *table)
 {
-	int	i;
-	t_mutex *temp;
+	int		i;
+	t_mutex	*temp;
 
-	i = 0;
-	while (i < table->members)
+	i = -1;
+	while (++i < table->members)
 	{
 		table->philos[i] = malloc(sizeof(t_philo));
 		if (!table->philos[i])
@@ -45,19 +45,16 @@ void	init_philos(t_table *table)
 		table->philos[i]->table = table;
 		table->philos[i]->tt_sleep = table->tt_sleep;
 		table->philos[i]->tt_eat = table->tt_eat;
+		table->philos[i]->tt_die = table->tt_die;
 		table->philos[i]->max_meals = table->max_meals;
 		table->philos[i]->t_start = table->t_start;
 		table->philos[i]->members = table->members;
 		table->philos[i]->left = table->forks[i];
 		table->philos[i]->right = table->forks[(i + 1) % table->members];
-		if (!i)
-		{
-			temp = table->philos[i]->right;
-			table->philos[i]->right = table->philos[i]->left;
-			table->philos[i]->left = temp;
-		}
-		i++;
-	}	
+	}
+	temp = table->philos[0]->right;
+	table->philos[0]->right = table->philos[0]->left;
+	table->philos[0]->left = temp;
 }
 
 void	lay_table(t_table *table)

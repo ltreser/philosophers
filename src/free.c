@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/14 01:32:07 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/15 21:33:58 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/16 01:32:22 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	free_philos(t_table *table)
 {
-	int i;
+	int	i;
 
 	i = -1;
 	while (++i < table->members && table->philos[i])
@@ -32,10 +32,9 @@ void	free_philos(t_table *table)
 
 void	free_forks(t_table *table)
 {
-	int i;
+	int	i;
 
 	i = -1;
-	
 	while (++i < table->members && table->forks[i])
 	{
 		pthread_mutex_destroy(table->forks[i]);
@@ -47,7 +46,7 @@ void	free_forks(t_table *table)
 		free(table->forks);
 		table->forks = NULL;
 	}
-}	
+}
 
 void	clear_table(t_table *table)
 {
@@ -62,4 +61,3 @@ void	clear_table(t_table *table)
 		table = NULL;
 	}
 }
-		

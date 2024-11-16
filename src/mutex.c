@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 23:06:49 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/15 21:49:27 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/16 02:01:49 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	end_here(t_table *table)
 	pthread_mutex_unlock(&table->m_end);
 }
 
-int		check_end(t_table *table)
+int	check_end(t_table *table)
 {
-	int e;
+	int	e;
 
 	e = 0;
 	pthread_mutex_lock(&table->m_end);
@@ -32,7 +32,7 @@ int		check_end(t_table *table)
 
 long	check_meals(t_table *table)
 {
-	long m;
+	long	m;
 
 	m = 0;
 	pthread_mutex_lock(&table->m_meals);
@@ -41,9 +41,9 @@ long	check_meals(t_table *table)
 	return (m);
 }
 
-long		check_t_last_meal(t_philo *philo)
+long	check_t_last_meal(t_philo *philo)
 {
-	long t;
+	long	t;
 
 	t = 0;
 	pthread_mutex_lock(&philo->table->m_meals);
@@ -60,11 +60,11 @@ void	m_write(t_philo *philo, int action)
 		if (action == 0)
 			printf("%ld %d %s", timestamp(philo), philo->id, FORK);
 		if (action == 1)
-			printf("%ld %d %s", timestamp(philo), philo->id, EAT);
+			printf("%ld %d %s", timestamp(philo), philo->id, EATING);
 		if (action == 2)
-			printf("%ld %d %s", timestamp(philo), philo->id, SLEEP);
+			printf("%ld %d %s", timestamp(philo), philo->id, SLEEPING);
 		if (action == 3)
-			printf("%ld %d %s", timestamp(philo), philo->id, THINK);
+			printf("%ld %d %s", timestamp(philo), philo->id, THINKING);
 		if (action == 4)
 			printf("%ld %d %s", timestamp(philo), philo->id, DEATH);
 		pthread_mutex_unlock(&philo->table->m_write);

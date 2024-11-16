@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 16:42:28 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/12 20:36:25 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/16 01:36:57 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 long	ft_atol(const char *str)
 {
 	long	n;
-	int 	i;
-	
+	int		i;
+
 	n = 0;
 	i = 0;
 	while (str[i])
@@ -29,7 +29,7 @@ long	ft_atol(const char *str)
 
 int	ft_strlen(char *str)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (str[i])
@@ -37,11 +37,9 @@ int	ft_strlen(char *str)
 	return (i);
 }
 
-
-//takes a string and checks if its only numbers for n length, length -1 = check everything
 int	isnum_n(char *str, int n)
 {
-	int i; 	
+	int	i;
 
 	i = 0;
 	if (n == -1)
@@ -52,34 +50,20 @@ int	isnum_n(char *str, int n)
 	return (1);
 }
 
-long current_ms(void)
+long	current_ms(void)
 {
-	struct timeval current_time;
+	struct timeval	current_time;
+	long			current_ms;
+
 	gettimeofday(&current_time, NULL);
-	long current_ms;
 	current_ms = current_time.tv_sec * 1000 + current_time.tv_usec / 1000;
 	return (current_ms);
 }
 
-long timestamp(t_philo *philo)
+long	timestamp(t_philo *philo)
 {
 	long	time_passed;
 
 	time_passed = current_ms() - philo->t_start;
 	return (time_passed);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
