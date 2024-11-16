@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 16:42:34 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/16 02:02:11 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/16 17:17:49 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@
 # include <sys/time.h>
 # include <unistd.h>
 
-# define WRONG_INPUT "\033[0;31m Wrong input!\n \033[0;32m Correct input is: \
-							./philo 5 800 200 200 [5]\n \033[0m"
+# define WRONG_INPUT "Wrong input!\nCorrect input is:\n./philo 5 800 200 200 [5]\n"
 # define MALLOC_FAIL "\033[0;31m Malloc failed!\n \033[0m"
 # define MUTEX_FAIL "\033[0;31m Failed to init mutex!\n \033[0m"
 # define THREAD_FAIL "\033[0;31m Failed to create thread!\n \033[0m"

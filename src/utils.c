@@ -6,7 +6,7 @@
 /*   By: ltreser <ltreser@student.42berlin.de>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 16:42:28 by ltreser           #+#    #+#             */
-/*   Updated: 2024/11/16 01:36:57 by ltreser          ###   ########.fr       */
+/*   Updated: 2024/11/16 17:42:21 by ltreser          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,11 @@ int	isnum_n(char *str, int n)
 {
 	int	i;
 
-	i = 0;
+	i = -1;
 	if (n == -1)
 		n = ft_strlen(str);
-	while (n--)
-		if (str[i] < '0' || str[i] > '9')
+	while (++i < n)
+		if ('0' > str[i] || '9' < str[i])
 			return (0);
 	return (1);
 }
